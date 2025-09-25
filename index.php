@@ -44,79 +44,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
 	<title>Login / Signup</title>
 </head>
 
 <body>
-	<div class="container">
-		<!-- LOGIN FORM -->
-		<div id="loginForm">
-			<h1>Login</h1>
-			<?php if (!empty($is_invalid)) : ?>
-				<p style="color: red;">Invalid login</p>
-			<?php endif; ?>
-			<form method="post">
-				<div class="form-group">
-					<label for="email_login">Email:</label>
-					<input type="email" id="email_login" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
-				</div>
-				<div class="form-group">
-					<label for="password_login">Password:</label>
-					<input type="password" id="password_login" name="password" required>
-				</div>
-				<button type="submit">Login</button>
-			</form>
-			<div class="switch-link">
-				<p>Don't have an account? <a href="#" onclick="showSignup()">Register here</a></p>
+	<section class="forms-section">
+		<h1 class="section-title">DnD Login / Signup</h1>
+		<div class="forms">
+			<div class="form-wrapper is-active">
+				<button type="button" class="switcher switcher-login">
+					Login
+					<span class="underline"></span>
+				</button>
+				<form class="form form-login" method="post">
+					<fieldset>
+						<legend>Please, enter your email and password for login.</legend>
+						<?php if (!empty($is_invalid)) : ?>
+							<p style="color: red;">Invalid login</p>
+						<?php endif; ?>
+						<div class="input-block">
+							<label for="email_login">E-mail</label>
+							<input id="email_login" type="email" name="email" required>
+						</div>
+						<div class="input-block">
+							<label for="password_login">Password</label>
+							<input id="password_login" type="password" name="password" required>
+						</div>
+					</fieldset>
+					<button type="submit" class="btn-login">Login</button>
+				</form>
+			</div>
+			<div class="form-wrapper">
+				<button type="button" class="switcher switcher-signup">
+					Sign Up
+					<span class="underline"></span>
+				</button>
+				<form class="form form-signup" action="register.php" method="post">
+					<fieldset>
+						<legend>Please, enter your email, password and password confirmation for sign up.</legend>
+						<div class="input-block">
+							<label for="username_signup">Username</label>
+							<input type="text" id="username_signup" name="username" required>
+						</div>
+						<div class="input-block">
+							<label for="email_signup">E-mail</label>
+							<input id="email_signup" type="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" name="email" required>
+						</div>
+						<div class="input-block">
+							<label for="password_signup">Password</label>
+							<input id="password_signup" type="password" name="password" required>
+						</div>
+						<div class="input-block">
+							<label for="confirm_password">Confirm password</label>
+							<input id="confirm_password" type="password" name="confirm_password" required>
+						</div>
+						<div class="input-block">
+							<label>Role</label>
+							<div>
+								<input type="radio" id="role_player" name="role" value="player" checked required>
+								<label for="role_player">Player</label>
+
+								<input type="radio" id="role_dm" name="role" value="dm" required>
+								<label for="role_dm">DM</label>
+							</div>
+						</div>
+					</fieldset>
+					<button type="submit" class="btn-signup">Continue</button>
+				</form>
 			</div>
 		</div>
+	</section>
 
-		<!-- SIGNUP FORM -->
-		<div id="signupForm" style="display:none;">
-			<h1>Sign Up</h1>
-			<form action="register.php" method="post">
-				<div class="form-group">
-					<label for="username_signup">Username:</label>
-					<input type="text" id="username_signup" name="username" required>
-				</div>
-				<div class="form-group">
-					<label for="email_signup">Email:</label>
-					<input type="email" id="email_signup" name="email" required>
-				</div>
-				<div class="form-group">
-					<label for="password_signup">Password:</label>
-					<input type="password" id="password_signup" name="password" required>
-				</div>
-				<div class="form-group">
-					<label for="confirm_password">Confirm Password:</label>
-					<input type="password" id="confirm_password" name="confirm_password" required>
-				</div>
-				<div class="form-group">
-					<label>Role:</label><br>
-					<input type="radio" id="role_player" name="role" value="player" checked required>
-					<label for="role_player">Player</label>
-
-					<input type="radio" id="role_dm" name="role" value="dm" required>
-					<label for="role_dm">DM</label>
-				</div>
-				<button type="submit">Register</button>
-			</form>
-			<div class="switch-link">
-				<p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
-			</div>
-		</div>
-	</div>
 
 	<script>
-		function showSignup() {
-			document.getElementById('loginForm').style.display = 'none';
-			document.getElementById('signupForm').style.display = 'block';
-		}
+		const switchers = [...document.querySelectorAll('.switcher')]
 
-		function showLogin() {
-			document.getElementById('signupForm').style.display = 'none';
-			document.getElementById('loginForm').style.display = 'block';
-		}
+		switchers.forEach(item => {
+			item.addEventListener('click', function() {
+				switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+				this.parentElement.classList.add('is-active')
+			})
+		})
 	</script>
 </body>
 
