@@ -1,9 +1,8 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
-	echo json_encode(["success" => false, "error" => "Not logged in"]);
+	header("Location: index.php");
 	exit();
 }
 

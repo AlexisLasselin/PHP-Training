@@ -68,7 +68,7 @@ if ($user['role'] !== 'dm') {
 
 	<button onclick="openModal()">Create a New Campaign</button>
 
-	<div id="campaignModal" class="modal">
+	<div id="campaignModal" class="modal" style="display:none;">
 		<div class="modal-content">
 			<span class="close-btn" onclick="closeModal()">&times;</span>
 			<h2>Create a Campaign</h2>
